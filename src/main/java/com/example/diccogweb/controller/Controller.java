@@ -1,4 +1,4 @@
-package com.example.controller;
+package com.example.diccogweb.controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,5 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class Controller {
 
     @PostMapping("getInfo")
+    public void create(){
+
+    }
 
 }
