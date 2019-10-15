@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class Files {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long fileNo;
+    private Long fileId;
     private String fileLoc;
 
 }

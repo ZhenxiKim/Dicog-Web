@@ -1,5 +1,6 @@
 package com.example.diccogweb.model;
 
+import com.example.diccogweb.model.requestDto.MembersRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,4 +25,13 @@ public class Members {
     private LocalDateTime memRegisterDate;
     private int memAge;
     private int memPoint;
+
+    //signUp
+    public Members(MembersRequestDto membersRequestDto) {
+        this.memId = membersRequestDto.getMemId();
+        this.memName = membersRequestDto.getMemName();
+        this.memPassword = membersRequestDto.getMemPwd();
+        this.memAge = membersRequestDto.getMemAge();
+        this.memRegisterDate = LocalDateTime.now();
+    }
 }

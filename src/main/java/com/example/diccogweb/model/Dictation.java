@@ -1,5 +1,6 @@
 package com.example.diccogweb.model;
 
+import com.example.diccogweb.model.requestDto.DictationExcelDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,12 +17,20 @@ public class Dictation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long dicId;
-    private String dicName;
+
     private String category;
     private String step;
+    private int levelNum;
     private String contents;
 
     @OneToMany
     @JoinColumn(name="fileNo")
     private List<Files> files;
+
+    public Dictation(DictationExcelDto dictationDto) {
+        this.category = dictationDto.getCategory();
+        this.step = dictationDto.getStep();
+        this.levelNum = dictationDto.getLevelNum();
+        this.contents = dictationDto.getContents();
+    }
 }
