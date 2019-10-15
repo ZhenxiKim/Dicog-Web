@@ -1,6 +1,6 @@
 package com.example.diccogweb.model;
 
-import com.example.diccogweb.model.requestDto.DictationExcelDto;
+import com.example.diccogweb.controller.dto.DictationExcelDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

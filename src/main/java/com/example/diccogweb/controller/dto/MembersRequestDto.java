@@ -1,4 +1,4 @@
-package com.example.diccogweb.model.requestDto;
+package com.example.diccogweb.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

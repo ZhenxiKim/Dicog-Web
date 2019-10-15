@@ -1,13 +1,19 @@
 package com.example.diccogweb.service;
 
+import com.example.diccogweb.exception.PasswordNotMatchException;
 import com.example.diccogweb.model.Members;
-import com.example.diccogweb.model.requestDto.MembersRequestDto;
+import com.example.diccogweb.controller.dto.MembersRequestDto;
 import com.example.diccogweb.repository.MembersRepository;
+import com.sun.istack.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.NotBlank;
 
 @Service
 @Transactional
+@Validated
 public class MembersService {
 
     private final MembersRepository membersRepository;
@@ -16,33 +22,31 @@ public class MembersService {
         this.membersRepository = membersRepository;
     }
 
-
-    public void signUp(MembersRequestDto membersRequestDto) {
+    public void signUpMember(MembersRequestDto membersRequestDto) {
         Members members = new Members(membersRequestDto);
         membersRepository.save(members);
     }
 
-    public String checkId(MembersRequestDto membersRequestDto) {
-        String newMemId = membersRequestDto.getMemId();
-
-        Members members = membersRepository.findByMemId(newMemId);
-        if (members.getMemId() == newMemId) {
+    public boolean isExistMemberId(@NotBlank String memId) {
+        Members members = membersRepository.findByMemId(memId);
+        if (members.getMemId() == memId) {
             //true :회원존재
-            return "이미 존재하는 회원";
+            return true;
         } else {
             //false :회원가입가능
-            return "회원가입 가능";
+            return false;
         }
     }
 
 
-    public String signIn(MembersRequestDto membersRequestDto) {
+    public Members signIn(MembersRequestDto membersRequestDto) throws PasswordNotMatchException {
         Members members = membersRepository.findByMemId(membersRequestDto.getMemId());
         //기존에 저장된 비밀번호와 입력된 비밀번호 비교
-        if(membersRequestDto.getMemPwd().equals(members.getMemPassword())){
-            return "로그인 성공";
-        }else{
-            return "로그인 실패";
+        if (membersRequestDto.getMemPwd().equals(members.getMemPassword())) {
+
+            return members;
+        } else {
+            throw new PasswordNotMatchException();
         }
     }
 }

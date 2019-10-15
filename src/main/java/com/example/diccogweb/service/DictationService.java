@@ -1,8 +1,8 @@
 package com.example.diccogweb.service;
 
 import com.example.diccogweb.model.Dictation;
-import com.example.diccogweb.model.requestDto.DicStartRequestDto;
-import com.example.diccogweb.model.requestDto.DictationExcelDto;
+import com.example.diccogweb.controller.dto.DicStartRequestDto;
+import com.example.diccogweb.controller.dto.DictationExcelDto;
 import com.example.diccogweb.repository.DictationRepository;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;

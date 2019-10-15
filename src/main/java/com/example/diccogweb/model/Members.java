@@ -1,6 +1,6 @@
 package com.example.diccogweb.model;
 
-import com.example.diccogweb.model.requestDto.MembersRequestDto;
+import com.example.diccogweb.controller.dto.MembersRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,7 +26,7 @@ public class Members {
     private int memAge;
     private int memPoint;
 
-    //signUp
+    //signUpMember
     public Members(MembersRequestDto membersRequestDto) {
         this.memId = membersRequestDto.getMemId();
         this.memName = membersRequestDto.getMemName();

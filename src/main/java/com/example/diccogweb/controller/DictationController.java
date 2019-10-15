@@ -1,6 +1,6 @@
 package com.example.diccogweb.controller;
 
-import com.example.diccogweb.model.requestDto.DicStartRequestDto;
+import com.example.diccogweb.controller.dto.DicStartRequestDto;
 import com.example.diccogweb.model.responseDto.DictationResponseDto;
 import com.example.diccogweb.service.DictationService;
 import io.swagger.annotations.ApiOperation;
