@@ -17,10 +17,9 @@ public class Dictation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long dicId;
-
-    private String category;
-    private String step;
-    private int levelNum;
+    private String category;//주제
+    private String step;//초중급 단계
+    private int levelNum;//숫자 레벨
     private String contents;
 
     @OneToMany

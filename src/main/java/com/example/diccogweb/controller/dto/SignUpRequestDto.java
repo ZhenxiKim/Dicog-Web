@@ -5,9 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class MembersRequestDto {
+@AllArgsConstructor
+public class SignUpRequestDto {
     private String memId;
     private String memPwd;
     private String memName;

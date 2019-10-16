@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MembersRequestDto {
-    private String memId;
-    private String memPwd;
-    private String memName;
-    private int memAge;
+public class Answer {
+    private Long dicId;
+    private String answer;
 }

@@ -9,10 +9,9 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DicStartRequestDto {
-    private Long dicId;
-    private String category;
-    private String step;
-    private String level;
-    private int levelNum;
+public class DictationRequestDto {
+
+    private String category;//주제
+    private String step;//초중급 단계
+    private int levelNum;//레벨
 }

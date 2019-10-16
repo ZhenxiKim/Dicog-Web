@@ -4,12 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MembersRequestDto {
-    private String memId;
-    private String memPwd;
-    private String memName;
-    private int memAge;
+public class AnswerRequestDto {
+    private Long memSn;
+    private List<Answer> answerData;
 }

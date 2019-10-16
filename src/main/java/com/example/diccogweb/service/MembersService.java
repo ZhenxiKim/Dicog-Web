@@ -1,10 +1,9 @@
 package com.example.diccogweb.service;
 
-import com.example.diccogweb.exception.PasswordNotMatchException;
+import com.example.diccogweb.controller.dto.SignUpRequestDto;
+import com.example.diccogweb.exception.DataNotFoundException;
 import com.example.diccogweb.model.Members;
-import com.example.diccogweb.controller.dto.MembersRequestDto;
 import com.example.diccogweb.repository.MembersRepository;
-import com.sun.istack.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -22,31 +21,17 @@ public class MembersService {
         this.membersRepository = membersRepository;
     }
 
-    public void signUpMember(MembersRequestDto membersRequestDto) {
-        Members members = new Members(membersRequestDto);
+    public void signUpMember(SignUpRequestDto signUpRequestDto) {
+        Members members = new Members(signUpRequestDto);
         membersRepository.save(members);
     }
 
-    public boolean isExistMemberId(@NotBlank String memId) {
-        Members members = membersRepository.findByMemId(memId);
-        if (members.getMemId() == memId) {
-            //true :회원존재
-            return true;
-        } else {
-            //false :회원가입가능
-            return false;
-        }
+    public Members isExistMemberId(@NotBlank String memId) throws DataNotFoundException {
+        //@NotBlank 공백 및 null 체크
+        //회원이 이미 존재하는지 db 조회
+        Members members = membersRepository.findByMemId(memId)
+                .orElseThrow(DataNotFoundException::new);
+        return members;
     }
 
-
-    public Members signIn(MembersRequestDto membersRequestDto) throws PasswordNotMatchException {
-        Members members = membersRepository.findByMemId(membersRequestDto.getMemId());
-        //기존에 저장된 비밀번호와 입력된 비밀번호 비교
-        if (membersRequestDto.getMemPwd().equals(members.getMemPassword())) {
-
-            return members;
-        } else {
-            throw new PasswordNotMatchException();
-        }
-    }
 }

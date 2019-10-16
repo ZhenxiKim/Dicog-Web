@@ -1,17 +1,15 @@
 package com.example.diccogweb.controller;
 
-import com.example.diccogweb.controller.dto.MembersRequestDto;
-import com.example.diccogweb.exception.PasswordNotMatchException;
+import com.example.diccogweb.controller.dto.CheckRequestDto;
+import com.example.diccogweb.controller.dto.SignUpRequestDto;
+import com.example.diccogweb.exception.DataNotFoundException;
+import com.example.diccogweb.exception.MemberNotExistException;
 import com.example.diccogweb.model.Members;
-import com.example.diccogweb.model.responseDto.MembersResponseDto;
 import com.example.diccogweb.service.MembersService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/members", consumes = {MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_JSON_VALUE})
@@ -25,30 +23,20 @@ public class MembersController {
 
     @ApiOperation(value = "회원가입")
     @PostMapping()
-    public MembersResponseDto createMember(@RequestBody MembersRequestDto membersRequestDto) {
-        membersService.signUpMember(membersRequestDto);
-        MembersResponseDto membersResponseDto = new MembersResponseDto(membersRequestDto);
-        return membersResponseDto;
+    public ResponseEntity<?> createMember(@RequestBody SignUpRequestDto signUpRequestDto) {
+        membersService.signUpMember(signUpRequestDto);
+        return ResponseEntity.ok(signUpRequestDto);
     }
 
     @ApiOperation(value = "회원존재여부확인")
-    @PostMapping("/idCheck")
-    public String checkId(@RequestBody MembersRequestDto membersRequestDto) {
-        boolean result = membersService.isExistMemberId(membersRequestDto.getMemId());
-        //TODO restapi 방식이 아니다 이건!
-        //FIXME restapi code로 변경해야함.
-        return result ? "회원이미존재" : "회원 존재하지 않";
-    }
+    @GetMapping("")
+    public ResponseEntity<?> isExistMemberId(@RequestBody CheckRequestDto checkRequestDto) {
 
-    @ApiOperation(value = "로그인")
-    @PostMapping("/signIn")
-    public ResponseEntity<?> signIn(@RequestBody MembersRequestDto membersRequestDto) {
+        //request로 들어온 멤버아이디 정보 조회
         try {
-            //TODO login api return값 정의 필요
-            //TODO login api controller분리
-            Members loginMember = membersService.signIn(membersRequestDto);
-            return ResponseEntity.ok(loginMember);
-        } catch (PasswordNotMatchException e) {
+            Members member = membersService.isExistMemberId(checkRequestDto.getMemId());
+            return ResponseEntity.ok(member);
+        }catch(DataNotFoundException e){
             return ResponseEntity.badRequest().build();
         }
     }

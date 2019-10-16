@@ -30,7 +30,8 @@ public class DiccogwebApplication {
                 .apiInfo(apiInfo())
                 .select()
                 //.apis(RequestHandlerSelectors.basePackage("com.example.lietnerox.api"))
-                .paths(PathSelectors.ant("/api/**"))//api로 선언된 부분만 api 문서
+                .paths(PathSelectors.any())//api로 선언된 부분만 api 문서
+                //TODO error controller 제거필요
                 .build();
     }
 
