@@ -26,4 +26,9 @@ public class Points {
     private Grade grade;
 
 
+    public Points(int pointNum, Grade grade, Members members) {
+        this.pointNum = pointNum;
+        this.grade = grade;
+        this.members = members;
+    }
 }

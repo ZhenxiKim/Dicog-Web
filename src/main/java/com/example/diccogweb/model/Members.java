@@ -24,7 +24,6 @@ public class Members {
     private String memPassword;
     private LocalDateTime memRegisterDate;
     private int memAge;
-    private int memPoint;
 
     //signUpMember
     public Members(SignUpRequestDto signUpRequestDto) {

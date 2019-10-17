@@ -3,12 +3,16 @@ package com.example.diccogweb.service;
 import com.example.diccogweb.controller.dto.SignUpRequestDto;
 import com.example.diccogweb.exception.DataNotFoundException;
 import com.example.diccogweb.model.Members;
+import com.example.diccogweb.model.Points;
+import com.example.diccogweb.model.responseDto.MemberInfoResponseDto;
 import com.example.diccogweb.repository.MembersRepository;
+import com.example.diccogweb.repository.PointsRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Service
 @Transactional
@@ -16,9 +20,12 @@ import javax.validation.constraints.NotBlank;
 public class MembersService {
 
     private final MembersRepository membersRepository;
+    private final PointsRepository pointsRepository;
 
-    public MembersService(MembersRepository membersRepository) {
+
+    public MembersService(MembersRepository membersRepository,PointsRepository pointsRepository) {
         this.membersRepository = membersRepository;
+        this.pointsRepository = pointsRepository;
     }
 
     public void signUpMember(SignUpRequestDto signUpRequestDto) {
@@ -32,6 +39,32 @@ public class MembersService {
         Members members = membersRepository.findByMemId(memId)
                 .orElseThrow(DataNotFoundException::new);
         return members;
+    }
+
+    public MemberInfoResponseDto getMemberInfo(Long memSn) throws DataNotFoundException{
+        Members members = membersRepository.findById(memSn).orElseThrow(DataNotFoundException::new);
+        int totalPoint =0;
+        //int totalPoint = pointsRepository.sumPoints(memSn);
+        List<Points> pointList = pointsRepository.findAllByMembersLike(members);
+
+        for(int i=0;i<pointList.size();i++){
+            totalPoint += pointList.get(i).getPointNum();
+        }
+
+
+        MemberInfoResponseDto memberInfoResponseDto = new MemberInfoResponseDto();
+
+
+
+
+
+        memberInfoResponseDto.setMemId(members.getMemId());//회원아이디
+        memberInfoResponseDto.setMemName(members.getMemName());//회원이름
+        memberInfoResponseDto.setRegDate(members.getMemRegisterDate());//회원등록날짜
+        memberInfoResponseDto.setMemAge(members.getMemAge());//회원나이
+        memberInfoResponseDto.setMemPoint(totalPoint);
+
+        return memberInfoResponseDto;
     }
 
 }

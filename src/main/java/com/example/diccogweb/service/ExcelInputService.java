@@ -49,8 +49,8 @@ public class ExcelInputService {
 
                 if (row != null) {
 
-                    dictationDto.setStep(row.getCell(0).getStringCellValue());
-                    dictationDto.setCategory(row.getCell(1).getStringCellValue());
+                    dictationDto.setCategory(row.getCell(0).getStringCellValue());
+                    dictationDto.setStep(row.getCell(1).getStringCellValue());
                     dictationDto.setLevelNum((int) row.getCell(2).getNumericCellValue());
                     dictationDto.setContents(row.getCell(3).getStringCellValue());
 

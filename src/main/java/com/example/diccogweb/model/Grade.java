@@ -18,6 +18,7 @@ public class Grade {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long gradeId;
+    //@Convert(converter = BooleanToYNConverter.class)
     private boolean gradeCheck;
     private LocalDateTime localDateTime;
 
@@ -35,5 +36,16 @@ public class Grade {
         this.members = members;
         this.dictation = dictation;
         this.gradeCheck = answerResult;
+        this.localDateTime = LocalDateTime.now();
     }
+
+    public boolean isGradeCheck() {
+        return gradeCheck;
+    }
+
+    public void setGradeCheck(boolean gradeCheck) {
+        this.gradeCheck = gradeCheck;
+    }
+
+
 }

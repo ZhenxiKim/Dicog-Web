@@ -3,6 +3,8 @@ package com.example.diccogweb.controller;
 import com.example.diccogweb.controller.dto.AnswerRequestDto;
 import com.example.diccogweb.controller.dto.DictationRequestDto;
 import com.example.diccogweb.exception.DataNotFoundException;
+import com.example.diccogweb.model.Grade;
+import com.example.diccogweb.model.responseDto.AnswerResponseDto;
 import com.example.diccogweb.model.responseDto.AnswerResult;
 import com.example.diccogweb.model.responseDto.DictationResponseDto;
 import com.example.diccogweb.service.DictationService;
@@ -23,8 +25,6 @@ public class DictationController {
     private DictationService dictationService;
     //TODO autowired로 했을때 차이 정리하기
 
-
-
     @ApiOperation("받아쓰기내용 가져오기")
     @GetMapping()
     public ResponseEntity<?> getDictationContents(@RequestBody DictationRequestDto dictationRequestDto) {
@@ -41,6 +41,9 @@ public class DictationController {
     @PostMapping("/answers")
     public ResponseEntity<?> checkDictationAnswer(@RequestBody AnswerRequestDto answerRequestDto) throws DataNotFoundException {
         List<AnswerResult> answerResultList = dictationService.checkDictationAnswer(answerRequestDto);
-        return ResponseEntity.ok(answerResultList);
+        AnswerResponseDto answerResponseDto = new AnswerResponseDto();
+        answerResponseDto.setMemSn(answerRequestDto.getMemSn());
+        answerResponseDto.setAnswerResult(answerResultList);
+        return ResponseEntity.ok(answerResponseDto);
     }
 }
