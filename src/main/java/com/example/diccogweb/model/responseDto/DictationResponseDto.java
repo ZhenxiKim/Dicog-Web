@@ -10,6 +10,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DictationResponseDto {
-    private List randomIntList;//학습내용 꺼내올 랜덤 index
+    //private List randomIntList;//학습내용 꺼내올 랜덤 index
     private List dictationList;//학습내용 리스트
 }

@@ -12,4 +12,5 @@ import java.util.List;
 public class AnswerRequestDto {
     private Long memSn;
     private List<Answer> answerData;
+
 }

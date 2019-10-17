@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Data
@@ -18,6 +19,7 @@ public class Grade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long gradeId;
     private boolean gradeCheck;
+    private LocalDateTime localDateTime;
 
     @ManyToOne
     @JoinColumn(name = "memSn", referencedColumnName = "memSn")
