@@ -3,21 +3,22 @@ package com.example.diccogweb.service;
 import com.example.diccogweb.controller.dto.Answer;
 import com.example.diccogweb.controller.dto.AnswerRequestDto;
 import com.example.diccogweb.exception.DataNotFoundException;
-import com.example.diccogweb.model.Dictation;
-import com.example.diccogweb.model.Grade;
-import com.example.diccogweb.model.Members;
-import com.example.diccogweb.model.Points;
+import com.example.diccogweb.model.*;
 import com.example.diccogweb.model.responseDto.AnswerResult;
 import com.example.diccogweb.model.responseDto.DictationResponseDto;
-import com.example.diccogweb.repository.DictationRepository;
-import com.example.diccogweb.repository.GradeRepository;
-import com.example.diccogweb.repository.MembersRepository;
-import com.example.diccogweb.repository.PointsRepository;
+import com.example.diccogweb.repository.*;
 import javassist.NotFoundException;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotBlank;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,13 +30,15 @@ public class DictationService {
     private GradeRepository gradeRepository;
     private MembersRepository membersRepository;
     private PointsRepository pointsRepository;
+    private FileRepository fileRepository;
 
     public DictationService(DictationRepository dictationRepository, GradeRepository gradeRepository,
-                            MembersRepository membersRepository,PointsRepository pointsRepository) {
+                            MembersRepository membersRepository,FileRepository fileRepository,PointsRepository pointsRepository) {
         this.dictationRepository = dictationRepository;
         this.gradeRepository = gradeRepository;
         this.membersRepository = membersRepository;
         this.pointsRepository = pointsRepository;
+        this.fileRepository = fileRepository;
     }
 
     public DictationResponseDto getDictationContents(@NotBlank String category, String step, int levelNum) {
@@ -79,7 +82,7 @@ public class DictationService {
             if (answer.equals(dictation.getContents())) {
                 //정답
                 answerResult = true;
-                pointNum = 10;
+                pointNum = 20;//정답일 경우 20점 추가
 
             } else {
                 //오답
@@ -105,6 +108,24 @@ public class DictationService {
         }
 
         return answerResultList;
+    }
+
+    public Resource loadFileAsResource(Long fileId) throws Throwable {
+        java.nio.file.Path fileLocation = Paths.get("./images").toAbsolutePath().normalize();
+        Files file = fileRepository.findById(fileId).orElseThrow(DataNotFoundException::new);
+        String fileName = file.getFileName();
+        try {
+            Path filePath = fileLocation.resolve(fileName).normalize();
+            org.springframework.core.io.Resource resource = new UrlResource(filePath.toUri());
+
+            if(resource.exists()) {
+                return resource;
+            } else {
+                throw new Exception(fileName + " 파일을 찾을 수 없습니다.");
+            }
+        } catch (MalformedURLException e) {
+            throw new Exception(fileName + " 파일을 찾을 수 없습니다.", e);
+        }
     }
 
 }

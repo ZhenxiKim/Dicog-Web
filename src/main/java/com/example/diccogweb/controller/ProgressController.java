@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value="/progresses",, consumes = {MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(value="/progresses", consumes = {MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_JSON_VALUE})
 public class ProgressController {
     //맞춘거체크,진행상황체크
     private final ProgressService progressService;
@@ -18,9 +18,10 @@ public class ProgressController {
         this.progressService = progressService;
     }
 
-    @ApiOperation(value="받아쓰기 진행상황")
-    @GetMapping("/{memSn}/{step}")
-    public ResponseEntity<?> checkProgress(@PathVariable Long memSn,String step){
-        
-    }
+//    @ApiOperation(value="받아쓰기 진행상황")
+//    @GetMapping("/{memSn}")
+//    public ResponseEntity<?> checkProgress(@PathVariable Long memSn){
+////        progressService.getDictationProgress(memSn);
+//
+//    }
 }

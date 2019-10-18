@@ -10,6 +10,8 @@ import com.example.diccogweb.model.responseDto.DictationResponseDto;
 import com.example.diccogweb.service.DictationService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,5 +47,16 @@ public class DictationController {
         answerResponseDto.setMemSn(answerRequestDto.getMemSn());
         answerResponseDto.setAnswerResult(answerResultList);
         return ResponseEntity.ok(answerResponseDto);
+    }
+
+    @GetMapping("/getPicture/{fileId}")
+    public ResponseEntity<Resource> getPicture(@PathVariable(value = "fileId") Long fileId) throws Throwable{
+        org.springframework.core.io.Resource resource = dictationService.loadFileAsResource(fileId);
+        String contentType = "image/"+resource.getFilename().split("\\.")[1];
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
     }
 }
