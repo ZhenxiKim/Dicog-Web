@@ -4,18 +4,15 @@ import com.example.diccogweb.controller.dto.Answer;
 import com.example.diccogweb.controller.dto.AnswerRequestDto;
 import com.example.diccogweb.exception.DataNotFoundException;
 import com.example.diccogweb.model.*;
-import com.example.diccogweb.model.responseDto.AnswerResult;
-import com.example.diccogweb.model.responseDto.DictationResponseDto;
+import com.example.diccogweb.model.dto.AnswerResult;
+import com.example.diccogweb.model.dto.DictationResponseDto;
 import com.example.diccogweb.repository.*;
-import javassist.NotFoundException;
-import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotBlank;
-import java.io.File;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -43,6 +40,9 @@ public class DictationService {
 
     public DictationResponseDto getDictationContents(@NotBlank String category, String step, int levelNum) {
         List<Dictation> dictationList = dictationRepository.findAllByCategoryAndStepAndLevelNum(category, step, levelNum);
+
+
+
         //TODO 찾아온 데이터가 존재하지 않을경우 exception 처리
 
 //        List randomList = new ArrayList();
@@ -110,15 +110,15 @@ public class DictationService {
         return answerResultList;
     }
 
-    public Resource loadFileAsResource(Long fileId) throws Throwable {
+    public String loadFileAsResource(Long fileId) throws Throwable {
         java.nio.file.Path fileLocation = Paths.get("./images").toAbsolutePath().normalize();
         Files file = fileRepository.findById(fileId).orElseThrow(DataNotFoundException::new);
         String fileName = file.getFileName();
         try {
             Path filePath = fileLocation.resolve(fileName).normalize();
-            org.springframework.core.io.Resource resource = new UrlResource(filePath.toUri());
+            String resource = String.valueOf(filePath.toUri());
 
-            if(resource.exists()) {
+            if(resource != null) {
                 return resource;
             } else {
                 throw new Exception(fileName + " 파일을 찾을 수 없습니다.");
@@ -127,5 +127,4 @@ public class DictationService {
             throw new Exception(fileName + " 파일을 찾을 수 없습니다.", e);
         }
     }
-
 }

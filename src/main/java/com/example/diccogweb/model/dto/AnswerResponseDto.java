@@ -1,6 +1,5 @@
-package com.example.diccogweb.model.responseDto;
+package com.example.diccogweb.model.dto;
 
-import com.example.diccogweb.model.Grade;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

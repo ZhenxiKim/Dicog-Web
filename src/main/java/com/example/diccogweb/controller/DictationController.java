@@ -2,33 +2,34 @@ package com.example.diccogweb.controller;
 
 import com.example.diccogweb.controller.dto.AnswerRequestDto;
 import com.example.diccogweb.controller.dto.DictationRequestDto;
+import com.example.diccogweb.controller.dto.FilePathDto;
 import com.example.diccogweb.exception.DataNotFoundException;
-import com.example.diccogweb.model.Grade;
-import com.example.diccogweb.model.responseDto.AnswerResponseDto;
-import com.example.diccogweb.model.responseDto.AnswerResult;
-import com.example.diccogweb.model.responseDto.DictationResponseDto;
+import com.example.diccogweb.model.dto.AnswerResponseDto;
+import com.example.diccogweb.model.dto.AnswerResult;
+import com.example.diccogweb.model.dto.DictationResponseDto;
 import com.example.diccogweb.service.DictationService;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "dictations", consumes = {MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_JSON_VALUE})
 public class DictationController {
 
-    @Autowired
-    private DictationService dictationService;
+    private final DictationService dictationService;
+    public DictationController(DictationService dictationService){
+        this.dictationService = dictationService;
+    }
     //TODO autowired로 했을때 차이 정리하기
 
+    //TODO get?Post?
     @ApiOperation("받아쓰기내용 가져오기")
-    @GetMapping()
+    @PostMapping()
     public ResponseEntity<?> getDictationContents(@RequestBody DictationRequestDto dictationRequestDto) {
         String category = dictationRequestDto.getCategory();//주제
         String step = dictationRequestDto.getStep();//초중급 단계
@@ -49,14 +50,18 @@ public class DictationController {
         return ResponseEntity.ok(answerResponseDto);
     }
 
-    @GetMapping("/getPicture/{fileId}")
-    public ResponseEntity<Resource> getPicture(@PathVariable(value = "fileId") Long fileId) throws Throwable{
-        org.springframework.core.io.Resource resource = dictationService.loadFileAsResource(fileId);
-        String contentType = "image/"+resource.getFilename().split("\\.")[1];
+    //TODO api 명명규칙
+    @ApiOperation("파일 경로 가져오기")
+    @GetMapping("/pictures/{fileId}")
+    public ResponseEntity<?> getPicture(@PathVariable(value = "fileId") Long fileId) throws Throwable{
+        String resource = dictationService.loadFileAsResource(fileId);
+        //String contentType = "image/"+resource.getFilename().split("\\.")[1];
 
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-                .body(resource);
+        FilePathDto filePathDto = new FilePathDto();
+        filePathDto.setFilePath(resource);
+        return ResponseEntity.ok(filePathDto);
+//                .contentType(MediaType.parseMediaType(contentType))
+//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+//                .body(resource);
     }
 }

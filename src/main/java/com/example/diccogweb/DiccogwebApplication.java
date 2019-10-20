@@ -32,7 +32,7 @@ public class DiccogwebApplication {
                 .apiInfo(apiInfo())
                 .select()
                 //.apis(RequestHandlerSelectors.basePackage("com.example.lietnerox.api"))
-                .paths(PathSelectors.any())//api로 선언된 부분만 api 문서
+                //api로 선언된 부분만 api 문서
                 //.paths(PathSelectors.ant("/members/**"))
                 //.paths(PathSelectors.ant("/excels/**"))
                .apis(RequestHandlerSelectors.any())

@@ -4,7 +4,7 @@ import com.example.diccogweb.controller.dto.SignUpRequestDto;
 import com.example.diccogweb.exception.DataNotFoundException;
 import com.example.diccogweb.model.Members;
 import com.example.diccogweb.model.Points;
-import com.example.diccogweb.model.responseDto.MemberInfoResponseDto;
+import com.example.diccogweb.model.dto.MemberInfoResponseDto;
 import com.example.diccogweb.repository.MembersRepository;
 import com.example.diccogweb.repository.PointsRepository;
 import org.springframework.stereotype.Service;
