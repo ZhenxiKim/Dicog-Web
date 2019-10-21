@@ -33,8 +33,7 @@ public class DiccogwebApplication {
                 .select()
                 //.apis(RequestHandlerSelectors.basePackage("com.example.lietnerox.api"))
                 //api로 선언된 부분만 api 문서
-                //.paths(PathSelectors.ant("/members/**"))
-                //.paths(PathSelectors.ant("/excels/**"))
+
                .apis(RequestHandlerSelectors.any())
                 //TODO error controller 제거필요
                 .build();

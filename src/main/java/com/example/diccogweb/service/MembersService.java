@@ -51,18 +51,13 @@ public class MembersService {
             totalPoint += pointList.get(i).getPointNum();
         }
 
-
         MemberInfoResponseDto memberInfoResponseDto = new MemberInfoResponseDto();
-
-
-
-
 
         memberInfoResponseDto.setMemId(members.getMemId());//회원아이디
         memberInfoResponseDto.setMemName(members.getMemName());//회원이름
         memberInfoResponseDto.setRegDate(members.getMemRegisterDate());//회원등록날짜
         memberInfoResponseDto.setMemAge(members.getMemAge());//회원나이
-        memberInfoResponseDto.setMemPoint(totalPoint);
+        memberInfoResponseDto.setMemPoint(totalPoint);//회원 누적 포인트
 
         return memberInfoResponseDto;
     }

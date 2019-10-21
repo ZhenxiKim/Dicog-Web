@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>Title</title>
+</head>
+<body>
+    <div id="imageContainer" data="image/jpg;base64" style="width:600px; height:600px;">
+        <img src="">
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            $.ajax({
+                    url:'http://localhost:8080/dictations/pictures/1',
+                    type:'GET',
+                    contentType:'blob',
+                    dataType : 'html',
+                    success: function(data){
+                        console.log("aa");
+                    },
+                    error:function(){
+                        console.log("실패");
+                    }
+            })
+
+        })
+
+
+
+
+
+    </script>
+</body>
+</html>

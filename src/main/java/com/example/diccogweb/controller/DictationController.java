@@ -29,8 +29,8 @@ public class DictationController {
 
     //TODO get?Post?
     @ApiOperation("받아쓰기내용 가져오기")
-    @PostMapping()
-    public ResponseEntity<?> getDictationContents(@RequestBody DictationRequestDto dictationRequestDto) {
+    @GetMapping("")
+        public ResponseEntity<?> getDictationContents(@RequestBody DictationRequestDto dictationRequestDto) {
         String category = dictationRequestDto.getCategory();//주제
         String step = dictationRequestDto.getStep();//초중급 단계
         int levelNum = dictationRequestDto.getLevelNum();//레벨
@@ -39,6 +39,13 @@ public class DictationController {
 
         return ResponseEntity.ok(dictationResponseDto);
     }
+    /* 확인필요
+    public ResponseEntity<?> getDictationContents(@RequestParam("category")String category,@RequestParam("step") String step,@RequestParam("levelNum")int levelNum) {
+        DictationResponseDto dictationResponseDto = dictationService.getDictationContents(category, step, levelNum);
+        return ResponseEntity.ok(dictationResponseDto);
+    }*/
+
+
 
     @ApiOperation("받아쓰기 정답확인")
     @PostMapping("/answers")
@@ -50,18 +57,15 @@ public class DictationController {
         return ResponseEntity.ok(answerResponseDto);
     }
 
-    //TODO api 명명규칙
     @ApiOperation("파일 경로 가져오기")
     @GetMapping("/pictures/{fileId}")
-    public ResponseEntity<?> getPicture(@PathVariable(value = "fileId") Long fileId) throws Throwable{
-        String resource = dictationService.loadFileAsResource(fileId);
-        //String contentType = "image/"+resource.getFilename().split("\\.")[1];
+    public ResponseEntity<Resource> getPicture(@PathVariable(value = "fileId") Long fileId) throws Throwable{
+        org.springframework.core.io.Resource resource = dictationService.loadFileAsResource(fileId);
+        String contentType = "image/"+resource.getFilename().split("\\.")[1];
 
-        FilePathDto filePathDto = new FilePathDto();
-        filePathDto.setFilePath(resource);
-        return ResponseEntity.ok(filePathDto);
-//                .contentType(MediaType.parseMediaType(contentType))
-//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-//                .body(resource);
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
     }
 }

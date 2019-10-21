@@ -110,15 +110,15 @@ public class DictationService {
         return answerResultList;
     }
 
-    public String loadFileAsResource(Long fileId) throws Throwable {
+    public Resource loadFileAsResource(Long fileId) throws Throwable {
         java.nio.file.Path fileLocation = Paths.get("./images").toAbsolutePath().normalize();
         Files file = fileRepository.findById(fileId).orElseThrow(DataNotFoundException::new);
         String fileName = file.getFileName();
         try {
             Path filePath = fileLocation.resolve(fileName).normalize();
-            String resource = String.valueOf(filePath.toUri());
+            org.springframework.core.io.Resource resource = new UrlResource(filePath.toUri());
 
-            if(resource != null) {
+            if(resource.exists()) {
                 return resource;
             } else {
                 throw new Exception(fileName + " 파일을 찾을 수 없습니다.");
