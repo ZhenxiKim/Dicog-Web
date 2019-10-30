@@ -46,6 +46,7 @@ public class MembersService {
         int totalPoint =0;
         //int totalPoint = pointsRepository.sumPoints(memSn);
         List<Points> pointList = pointsRepository.findAllByMembersLike(members);
+        //List<Points> pointList = pointsRepository.sumPoints(memSn);
 
         for(int i=0;i<pointList.size();i++){
             totalPoint += pointList.get(i).getPointNum();

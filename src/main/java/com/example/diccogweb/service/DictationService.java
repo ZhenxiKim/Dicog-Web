@@ -38,8 +38,8 @@ public class DictationService {
         this.fileRepository = fileRepository;
     }
 
-    public DictationResponseDto getDictationContents(@NotBlank String category, String step, int levelNum) {
-        List<Dictation> dictationList = dictationRepository.findAllByCategoryAndStepAndLevelNum(category, step, levelNum);
+    public List<Dictation> getDictationContents() {
+        List<Dictation> dictationList = dictationRepository.findAll();
 
 
 
@@ -55,7 +55,7 @@ public class DictationService {
         dictationResponseDto.setDictationList(dictationList);
   //      dictationResponseDto.setRandomIntList(randomList);
 
-        return dictationResponseDto;
+        return dictationList;
     }
 
     //리스트에 담는 작업

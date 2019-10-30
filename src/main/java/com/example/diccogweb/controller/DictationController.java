@@ -1,12 +1,10 @@
 package com.example.diccogweb.controller;
 
 import com.example.diccogweb.controller.dto.AnswerRequestDto;
-import com.example.diccogweb.controller.dto.DictationRequestDto;
-import com.example.diccogweb.controller.dto.FilePathDto;
 import com.example.diccogweb.exception.DataNotFoundException;
+import com.example.diccogweb.model.Dictation;
 import com.example.diccogweb.model.dto.AnswerResponseDto;
 import com.example.diccogweb.model.dto.AnswerResult;
-import com.example.diccogweb.model.dto.DictationResponseDto;
 import com.example.diccogweb.service.DictationService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.core.io.Resource;
@@ -22,7 +20,8 @@ import java.util.List;
 public class DictationController {
 
     private final DictationService dictationService;
-    public DictationController(DictationService dictationService){
+
+    public DictationController(DictationService dictationService) {
         this.dictationService = dictationService;
     }
     //TODO autowired로 했을때 차이 정리하기
@@ -30,21 +29,11 @@ public class DictationController {
     //TODO get?Post?
     @ApiOperation("받아쓰기내용 가져오기")
     @GetMapping("")
-        public ResponseEntity<?> getDictationContents(@RequestBody DictationRequestDto dictationRequestDto) {
-        String category = dictationRequestDto.getCategory();//주제
-        String step = dictationRequestDto.getStep();//초중급 단계
-        int levelNum = dictationRequestDto.getLevelNum();//레벨
+    public ResponseEntity<?> getDictationContents() {
 
-        DictationResponseDto dictationResponseDto = dictationService.getDictationContents(category, step, levelNum);
-
-        return ResponseEntity.ok(dictationResponseDto);
+        List<Dictation> dictationList = dictationService.getDictationContents();
+        return ResponseEntity.ok(dictationList);
     }
-    /* 확인필요
-    public ResponseEntity<?> getDictationContents(@RequestParam("category")String category,@RequestParam("step") String step,@RequestParam("levelNum")int levelNum) {
-        DictationResponseDto dictationResponseDto = dictationService.getDictationContents(category, step, levelNum);
-        return ResponseEntity.ok(dictationResponseDto);
-    }*/
-
 
 
     @ApiOperation("받아쓰기 정답확인")
@@ -59,9 +48,9 @@ public class DictationController {
 
     @ApiOperation("파일 경로 가져오기")
     @GetMapping("/pictures/{fileId}")
-    public ResponseEntity<Resource> getPicture(@PathVariable(value = "fileId") Long fileId) throws Throwable{
+    public ResponseEntity<Resource> getPicture(@PathVariable(value = "fileId") Long fileId) throws Throwable {
         org.springframework.core.io.Resource resource = dictationService.loadFileAsResource(fileId);
-        String contentType = "image/"+resource.getFilename().split("\\.")[1];
+        String contentType = "image/" + resource.getFilename().split("\\.")[1];
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))

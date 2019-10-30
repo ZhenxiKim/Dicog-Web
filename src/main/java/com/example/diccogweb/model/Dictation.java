@@ -17,9 +17,9 @@ public class Dictation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long dicId;
-    private String category;//주제
-    private String step;//초중급 단계
-    private int levelNum;//숫자 레벨
+    //private String category;//주제
+    //private String step;//초중급 단계
+    //private int levelNum;//숫자 레벨
     private String contents;
 
     @OneToMany
@@ -27,9 +27,9 @@ public class Dictation {
     private List<Files> files;
 
     public Dictation(DictationExcelDto dictationDto) {
-        this.category = dictationDto.getCategory();
-        this.step = dictationDto.getStep();
-        this.levelNum = dictationDto.getLevelNum();
+//        this.category = dictationDto.getCategory();
+//        this.step = dictationDto.getStep();
+//        this.levelNum = dictationDto.getLevelNum();
         this.contents = dictationDto.getContents();
     }
 }

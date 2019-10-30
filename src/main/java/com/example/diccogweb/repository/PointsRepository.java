@@ -10,8 +10,8 @@ import java.util.List;
 
 public interface PointsRepository extends JpaRepository<Points,Long> {
 
-//    @Query( "SELECT SUM(p.pointNum),P.members FROM Points p WHERE p.members = ?1 GROUP BY  p.members")
-//    int sumPoints(@Param("memSn") Long memSn);
+//    @Query( "SELECT SUM(P.pointNum),P.members FROM Points P WHERE P.members LIKE %:memSn% GROUP BY  P.members")
+//    List<Points> sumPoints(@Param("memSn") Long memSn);
 
     List<Points> findAllByMembersLike(Members members);
 }
